@@ -29,6 +29,7 @@
 /// one which will contain your code that use the SDK.
 
 import { Actyx as SDK, AppManifest } from "@actyx/sdk";
+import { Pond } from "@actyx/pond";
 
 /** Sleep for the given number of milliseconds */
 const sleep = (ms: number): Promise<void> =>
@@ -118,8 +119,15 @@ const withRetry =
 /** Example run function which returns a boolean for demonstration purposes */
 const run = async (sdk: SDK): Promise<boolean> => {
   console.log(`starting to run with Actyx...`);
+
+  // Setup an Actyx Pond if you want to use that; instead of creating it manually,
+  // you can (since the most recent release of @actyx/pond), just pass the SDK into
+  // the Pond.
+  const pond = Pond.from(sdk, {});
+
   // Do something asynchronous; for the demo we just sleep for a very long time
   await new Promise((res) => setTimeout(res, 100_000_000));
+
   return true;
 };
 
