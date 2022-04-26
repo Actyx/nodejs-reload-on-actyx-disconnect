@@ -1,32 +1,34 @@
-import { Actyx as SDK, AppManifest } from "@actyx/sdk";
+/// This file contains an example of how one could retry upon the Actyx SDK
+/// losing connection to the locally running Actyx node.
+///
+/// This file contains three important functions:
+///
+/// 1. `loadSdk`
+/// This function is used to load the Actyx SDK. It returns that SDK as well
+/// as a promise which will resolve whenever the SDK loses its connection to
+/// the local Actyx node. This allows the caller to use the SDK, but also wait
+/// for a possible disconnect. It is used by the next function.
+///
+/// 2. `withSdk`
+/// This function takes another function which needs the SDK to run. It then
+/// creates the SDK (using the `loadSdk` function) and provides the returned
+/// SDK to the given function which can then use it. It also waits for a
+/// possible disconnect of the SDK and throws an exception in that case. The
+/// provided function does not have to deal with disconnects.
+///
+/// 3. `withRetry`
+/// This function takes another function and runs it. If the function fails
+/// with an exception, it will retry running that function. Depending on how
+/// it is configured it will retry it forever, or a specific maximum number
+/// of tries. Depending on how it is configured it will also possibly wait a
+/// number of milliseconds before retrying.
+///
+///
+/// Add the bottom of the file (in the `main` function) you will find an
+/// example of how to use this. Note that the `run` function is the important
+/// one which will contain your code that use the SDK.
 
-/**
- * This file contains an example of how one could retry upon the Actyx SDK
- * losing connection to the locally running Actyx node.
- *
- * This file contains three important functions:
- *
- * 1. `loadSdk`
- * This function is used to load the Actyx SDK. It returns that SDK as well
- * as a promise which will resolve whenever the SDK loses its connection to
- * the local Actyx node. This allows the caller to use the SDK, but also wait
- * for a possible disconnect. It is used by the next function.
- *
- * 2. `withSdk`
- * This function takes another function which needs the SDK to run. It then
- * creates the SDK (using the `loadSdk` function) and provides the returned
- * SDK to the given function which can then use it. It also waits for a
- * possible disconnect of the SDK and throws an exception in that case. The
- * provided function does not have to deal with disconnects.
- *
- * 3. `withRetry`
- * This function takes another function and runs it. If the function fails
- * with an exception, it will retry running that function. Depending on how
- * it is configured it will retry it forever, or a specific maximum number
- * of tries. Depending on how it is configured it will also possibly wait a
- * number of milliseconds before retrying.
- *
- */
+import { Actyx as SDK, AppManifest } from "@actyx/sdk";
 
 /** Sleep for the given number of milliseconds */
 export const sleep = (ms: number): Promise<void> =>
