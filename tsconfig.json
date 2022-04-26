@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "target": "es2020",
+    "module": "es2020",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2015"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "allowSyntheticDefaultImports": true,
+    "preserveConstEnums": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "noUnusedLocals": false,
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "references": [],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "tools", "dist"]
+}
