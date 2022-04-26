@@ -31,7 +31,7 @@
 import { Actyx as SDK, AppManifest } from "@actyx/sdk";
 
 /** Sleep for the given number of milliseconds */
-export const sleep = (ms: number): Promise<void> =>
+const sleep = (ms: number): Promise<void> =>
   new Promise((res) => setTimeout(res, ms));
 
 /**
@@ -39,7 +39,7 @@ export const sleep = (ms: number): Promise<void> =>
  * when the SDK loses its connection to the Actyx node. Note that the first promise may throw if the SDK
  * is not able to initially connect to Actyx. The second promise will never throw.
  */
-export const loadSdk = async (
+const loadSdk = async (
   manifest: AppManifest
 ): Promise<[SDK, Promise<Error>]> => {
   let onConnectionLost: (error: Error) => void = () => {};
@@ -57,7 +57,7 @@ export const loadSdk = async (
 };
 
 /** Load the Actyx SDK and run the given function with it */
-export const withSdk = async <T>(
+const withSdk = async <T>(
   manifest: AppManifest,
   run: (sdk: SDK) => Promise<T>
 ): Promise<T> => {
@@ -75,7 +75,7 @@ export const withSdk = async <T>(
  * takes a runner which returns an Either. Upon success, the Right is returned. Upon Left, the function is retries as
  * many times as configured. If the maximum number of retries is reached, this function returns the last Left.
  */
-export const withRetry =
+const withRetry =
   <T>(cfg?: { retryTimeoutMs?: number; maxRetries?: number }) =>
   async (run: () => T | Promise<T>): Promise<T> => {
     let numRetries = 0;
