@@ -2,7 +2,6 @@
 /// losing connection to the locally running Actyx node.
 
 import { Actyx as SDK, AppManifest } from "@actyx/sdk";
-import { Pond } from "@actyx/pond";
 
 export const main = async () => {
   console.log("starting...");
@@ -25,20 +24,6 @@ export const main = async () => {
       connected = false;
     },
   });
-
-  const pond = Pond.from(sdk, {});
-
-  // Perform your actual work
-  //while (true) {
-  //  console.log(`connected: ${connected}`);
-  //  if (!connected) {
-  //    console.log(`skipping since not connected...`);
-  //  } else {
-  //    //const _offsets = await sdk.offsets();
-  //    console.log(`got info`, pond.info());
-  //  }
-  //  await new Promise((res) => setTimeout(res, 1_000));
-  //}
 
   while (true) {
     console.log(`connected: ${connected}`);
