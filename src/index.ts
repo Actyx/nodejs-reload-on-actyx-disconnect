@@ -29,14 +29,49 @@ export const main = async () => {
   const pond = Pond.from(sdk, {});
 
   // Perform your actual work
+  //while (true) {
+  //  console.log(`connected: ${connected}`);
+  //  if (!connected) {
+  //    console.log(`skipping since not connected...`);
+  //  } else {
+  //    //const _offsets = await sdk.offsets();
+  //    console.log(`got info`, pond.info());
+  //  }
+  //  await new Promise((res) => setTimeout(res, 1_000));
+  //}
+
   while (true) {
     console.log(`connected: ${connected}`);
     if (!connected) {
       console.log(`skipping since not connected...`);
     } else {
-      //const _offsets = await sdk.offsets();
-      console.log(`got info`, pond.info());
+      try {
+        console.log(`starting subscription`);
+        // Start the subscription and do something with the results (never ends)
+        await new Promise<void>((resolve, reject) => {
+          const cancel = sdk.subscribeAql(
+            `FEATURES(timeRange) FROM allEvents & from(2023-01-01T00:00:00.000Z)`,
+            () => {
+              // Just an example to show how to cancel; this will lead to the next
+              // while loop which will re-start the subscription. Not necessary of
+              // course, but just showing how to ensure we don't have memory leaks.
+              setTimeout(() => {
+                cancel();
+                resolve();
+              }, 10_000);
+            },
+            (err) => {
+              // No need to call cancel in the case of an error
+              reject(err);
+            }
+          );
+        });
+      } catch (error) {
+        console.log(`caught error in subscription`);
+        console.error(error);
+      }
     }
+
     await new Promise((res) => setTimeout(res, 1_000));
   }
 };
