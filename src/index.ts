@@ -125,9 +125,12 @@ const run = async (sdk: SDK): Promise<boolean> => {
   // the Pond.
   const pond = Pond.from(sdk, {});
 
-  // Do something asynchronous; for the demo we just sleep for a very long time
-  await new Promise((res) => setTimeout(res, 100_000_000));
-
+  console.log(pond.info())
+  while(true) {
+    console.log(pond.info())
+    await new Promise((res) => setTimeout(res, 100_000_000));
+  }
+  
   return true;
 };
 
